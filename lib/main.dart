@@ -32,8 +32,9 @@ class MyApp extends StatelessWidget {
             'not_active_doctor':(context) => not_active_doctor(),
             'pationt':(context) => pationt(),
             
+            
           },
-          home: doctor(),
+          home:doctor(),
         ));
   }
 }

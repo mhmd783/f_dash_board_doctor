@@ -360,11 +360,11 @@ class control extends ChangeNotifier {
         //posts.add(responsebody);
         active = responsebody;
         getdatadoctorvesitprofile();
-        searches = [];
-        getsearch();
-        indexenddoctor = 1;
-        doctors = [];
-        getalldoctors();
+        // searches = [];
+        // getsearch();
+        // indexenddoctor = 1;
+        // doctors = [];
+        // getalldoctors();
       }
     } catch (e) {
       print(e);

@@ -29,18 +29,6 @@ class _profile_doctor_visit extends State<profile_doctor_visit> {
           .getpost_profile_doctor_visit();
     });
 
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(
-            "ملف الدكتور الشخصي يمكنك حجز كشف ومعرفه مواعيد عمل الدكتور وعنوانه وسعر الكشف ويمكنك رؤيه معلوماته الطبيه اللي بينشرها علي حسابه",
-            textAlign: TextAlign.center,
-          ),
-          duration: Duration(seconds: 3),
-        ),
-      );
-    });
-
     super.initState();
   }
 
@@ -57,9 +45,11 @@ class _profile_doctor_visit extends State<profile_doctor_visit> {
         return !val.datadoctor.isEmpty
             ? Container(
                 color: Colors.white,
-                margin: EdgeInsets.only(
-                    left: MediaQuery.sizeOf(context).width / 5,
-                    right: MediaQuery.sizeOf(context).width / 5),
+                margin: MediaQuery.sizeOf(context).width >= 1080
+                    ? EdgeInsets.only(
+                        left: MediaQuery.sizeOf(context).width / 5,
+                        right: MediaQuery.sizeOf(context).width / 5)
+                    : null,
                 child: SingleChildScrollView(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.end,
@@ -151,6 +141,14 @@ class _profile_doctor_visit extends State<profile_doctor_visit> {
                         margin:
                             EdgeInsets.only(left: 40, right: 25, bottom: 10),
                         child: Text(
+                          '${(val.datadoctor[0]['power'] - val.datadoctor[0]['active']) * int.parse(val.datadoctor[0]['salary']) * 0.05}',
+                          style: TextStyle(color: Colors.black, fontSize: 20),
+                        ),
+                      ),
+                      Container(
+                        margin:
+                            EdgeInsets.only(left: 40, right: 25, bottom: 10),
+                        child: Text(
                           'التخصص: ${val.datadoctor[0]['specialty']}',
                           style: TextStyle(color: Colors.black, fontSize: 20),
                         ),
@@ -173,6 +171,52 @@ class _profile_doctor_visit extends State<profile_doctor_visit> {
                             ),
                             Container(
                               child: Icon(Icons.call),
+                              margin: EdgeInsets.only(right: 25),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Container(
+                        margin: EdgeInsets.only(bottom: 10),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            Container(
+                              margin: EdgeInsets.only(
+                                  left: 40, right: 25, bottom: 10),
+                              child: Text(
+                                ' ${val.datadoctor[0]['pass']}',
+                                style: TextStyle(
+                                    color: Colors.grey,
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                            Container(
+                              child: Icon(Icons.password),
+                              margin: EdgeInsets.only(right: 25),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Container(
+                        margin: EdgeInsets.only(bottom: 10),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            Container(
+                              margin: EdgeInsets.only(
+                                  left: 40, right: 25, bottom: 10),
+                              child: Text(
+                                ' ${val.datadoctor[0]['email']}',
+                                style: TextStyle(
+                                    color: Colors.grey,
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                            Container(
+                              child: Icon(Icons.email),
                               margin: EdgeInsets.only(right: 25),
                             ),
                           ],
@@ -464,8 +508,11 @@ class _profile_doctor_visit extends State<profile_doctor_visit> {
                         borderRadius: BorderRadius.circular(10)),
                     child: TextButton(
                         onPressed: () {
-                          val.add();
-                          _check_active_doctor();
+                          if (val.pationt.text!= '') {
+                            val.add();
+                            Navigator.of(context).pop();
+                            _check_active_doctor();
+                          }
                         },
                         child: Text(
                           "اضافه",
